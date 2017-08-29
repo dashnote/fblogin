@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
-import { View }  from 'react-native';
-import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import { View } from 'react-native';
+import firebase from 'firebase';
+
+import { Header } from './components/common';
+import LoginForm from './components/LoginForm';
 
 class App extends Component {
+    componentWillMount() {
+        firebase.initializeApp({
+            apiKey: 'AIzaSyADsNz5EM5wbSdaIt2lU_-3cWkiP9JcHFs',
+            authDomain: 'authentication-dac91.firebaseapp.com',
+            databaseURL: 'https://authentication-dac91.firebaseio.com',
+            projectId: 'authentication-dac91',
+            storageBucket: 'authentication-dac91.appspot.com',
+            messagingSenderId: '340842347689'
+        });
+    }
+    
     render() {
-        return(
+        return (
             <View>
-                <LoginButton
-                    publishPermissions={["publish_actions"]}
-                    onLoginFinished={
-                        (error, result) => {
-                        if (error) {
-                            alert("login has error: " + result.error);
-                        } else if (result.isCancelled) {
-                            alert("login is cancelled.");
-                        } else {
-                            AccessToken.getCurrentAccessToken().then(
-                            (data) => {
-                                alert(data.accessToken.toString())
-                            }
-                            )
-                        }
-                        }
-                    }
-                    onLogoutFinished={() => alert("logout.")}/>
-            </View>       
-        )
+                <Header headerText="Authentication" />
+                <LoginForm />
+            </View>
+        );
     }
 }
 
